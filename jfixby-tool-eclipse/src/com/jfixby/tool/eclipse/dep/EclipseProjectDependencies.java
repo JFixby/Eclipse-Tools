@@ -2,8 +2,10 @@ package com.jfixby.tool.eclipse.dep;
 
 import java.io.IOException;
 
+import com.jfixby.cmns.api.collections.Collection;
 import com.jfixby.cmns.api.collections.Collections;
 import com.jfixby.cmns.api.collections.List;
+import com.jfixby.cmns.api.collections.Set;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.log.L;
 import com.jfixby.cmns.api.util.JUtils;
@@ -11,18 +13,21 @@ import com.jfixby.cmns.api.util.JUtils;
 public class EclipseProjectDependencies {
 
 	private String project_name;
+	private File project_physical_location;
 
-	public EclipseProjectDependencies(String project_name) {
-		this.project_name = project_name;
+	public EclipseProjectDependencies(File project_physical_location) {
+		this.project_physical_location = project_physical_location;
+		this.project_name = project_physical_location.getName();
 	}
 
-	public static EclipseProjectDependencies extractFromClassPathFile(File desktop_project_folder) throws IOException {
+	public static EclipseProjectDependencies extractFromClassPathFile(File project_physical_location)
+			throws IOException {
 		// desktop_project_folder.listChildren().print();
-		File classpath_file = desktop_project_folder.child(".classpath");
+		File classpath_file = project_physical_location.child(".classpath");
 		String data = classpath_file.readToString();
 		// L.d("classpath", data);
 		List<String> deps_list = JUtils.split(data, "<classpathentry");
-		EclipseProjectDependencies dep = new EclipseProjectDependencies(desktop_project_folder.getName());
+		EclipseProjectDependencies dep = new EclipseProjectDependencies(project_physical_location);
 		for (int i = 0; i < deps_list.size(); i++) {
 			String element = deps_list.getElementAt(i);
 			{
@@ -52,9 +57,9 @@ public class EclipseProjectDependencies {
 		return dep;
 	}
 
-	final List<String> source_folders = Collections.newList();
-	final List<String> projects = Collections.newList();
-	final List<String> jars = Collections.newList();
+	final Set<String> source_folders = Collections.newSet();
+	final Set<String> projects = Collections.newSet();
+	final Set<String> jars = Collections.newSet();
 
 	private void addSourceFolderDependencyString(String path_string) {
 		source_folders.add(path_string);
@@ -107,7 +112,7 @@ public class EclipseProjectDependencies {
 		jars.print("jars");
 	}
 
-	public List<String> getProjectsList() {
+	public Collection<String> getProjectsList() {
 		return this.projects;
 	}
 
