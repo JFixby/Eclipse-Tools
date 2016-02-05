@@ -10,19 +10,25 @@ import com.jfixby.cmns.api.util.JUtils;
 
 public class EclipseProjectDependencies {
 
+	private String project_name;
+
+	public EclipseProjectDependencies(String project_name) {
+		this.project_name = project_name;
+	}
+
 	public static EclipseProjectDependencies extractFromClassPathFile(File desktop_project_folder) throws IOException {
 		// desktop_project_folder.listChildren().print();
 		File classpath_file = desktop_project_folder.child(".classpath");
 		String data = classpath_file.readToString();
-		L.d("classpath", data);
+		// L.d("classpath", data);
 		List<String> deps_list = JUtils.split(data, "<classpathentry");
-		EclipseProjectDependencies dep = new EclipseProjectDependencies();
+		EclipseProjectDependencies dep = new EclipseProjectDependencies(desktop_project_folder.getName());
 		for (int i = 0; i < deps_list.size(); i++) {
 			String element = deps_list.getElementAt(i);
 			{
 				String jar_path = getJarPath(element);
 				if (jar_path != null) {
-					L.d("jar_path", jar_path);
+					// L.d("jar_path", jar_path);
 					dep.addJarDependencyString(jar_path);
 					continue;
 				}
@@ -30,14 +36,18 @@ public class EclipseProjectDependencies {
 			String src_path = getSrcPath(element);
 			if (src_path != null) {
 				if (src_path.charAt(0) == '/') {
-					L.d("project_path", src_path);
+					// L.d("project_path", src_path);
 					dep.addProjectDependencyString(src_path);
 				} else {
-					L.d("src_path", src_path);
+					// L.d("src_path", src_path);
 					dep.addSourceFolderDependencyString(src_path);
 				}
 			}
 		}
+
+		dep.source_folders.sort();
+		dep.projects.sort();
+		dep.jars.sort();
 
 		return dep;
 	}
@@ -90,11 +100,15 @@ public class EclipseProjectDependencies {
 		return path;
 	}
 
-	public void print(String tag) {
-		L.d(tag);
+	public void print() {
+		L.d("---[" + project_name + "]---------------------");
 		source_folders.print("source folders");
 		projects.print("projects");
 		jars.print("jars");
+	}
+
+	public List<String> getProjectsList() {
+		return this.projects;
 	}
 
 }
