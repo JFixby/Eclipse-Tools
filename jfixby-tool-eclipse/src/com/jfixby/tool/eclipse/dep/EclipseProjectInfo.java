@@ -73,4 +73,8 @@ public class EclipseProjectInfo {
 		return this.project_dependencies;
 	}
 
+	public File getProjectPath() {
+		return this.project_path;
+	}
+
 }

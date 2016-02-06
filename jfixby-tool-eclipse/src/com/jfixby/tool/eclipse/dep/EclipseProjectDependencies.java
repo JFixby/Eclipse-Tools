@@ -117,4 +117,8 @@ public class EclipseProjectDependencies {
 		return this.projects;
 	}
 
+	public Collection<String> getSourceFoldersList() {
+		return this.source_folders;
+	}
+
 }
