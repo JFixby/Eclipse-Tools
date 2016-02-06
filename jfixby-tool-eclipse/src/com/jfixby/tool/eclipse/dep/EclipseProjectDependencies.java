@@ -42,6 +42,7 @@ public class EclipseProjectDependencies {
 			if (src_path != null) {
 				if (src_path.charAt(0) == '/') {
 					// L.d("project_path", src_path);
+					src_path = src_path.replaceFirst("/", "");
 					dep.addProjectDependencyString(src_path);
 				} else {
 					// L.d("src_path", src_path);
