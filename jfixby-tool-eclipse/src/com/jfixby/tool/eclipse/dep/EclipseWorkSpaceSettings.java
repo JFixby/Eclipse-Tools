@@ -22,7 +22,7 @@ public class EclipseWorkSpaceSettings {
 				.child(".projects");
 
 		EclipseWorkSpaceSettings result = new EclipseWorkSpaceSettings(workspace_folder);
-		ChildrenList projects_list = projects_folder.listChildren();
+		ChildrenList projects_list = projects_folder.listDirectChildren();
 		for (int i = 0; i < projects_list.size(); i++) {
 			File element = projects_list.getElementAt(i);
 			File location_file = element.child(".location");
