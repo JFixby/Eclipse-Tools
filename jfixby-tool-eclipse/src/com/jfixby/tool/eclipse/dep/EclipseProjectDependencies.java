@@ -27,11 +27,16 @@ public class EclipseProjectDependencies {
 
 	public static EclipseProjectDependencies extractFromClassPathFile (final File project_physical_location) throws IOException {
 		// desktop_project_folder.listChildren().print();
+		final EclipseProjectDependencies dep = new EclipseProjectDependencies(project_physical_location);
 		final File classpath_file = project_physical_location.child(".classpath");
+		if (!classpath_file.exists()) {
+			L.e("File not found", classpath_file);
+			return dep;
+		}
 		final String data = classpath_file.readToString();
 		// L.d("classpath", data);
 		final List<String> deps_list = JUtils.split(data, "<classpathentry");
-		final EclipseProjectDependencies dep = new EclipseProjectDependencies(project_physical_location);
+
 		for (int i = 0; i < deps_list.size(); i++) {
 			final String element = deps_list.getElementAt(i);
 			{
