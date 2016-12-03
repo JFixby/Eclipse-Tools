@@ -7,6 +7,7 @@ import com.jfixby.cmns.api.collections.Collection;
 import com.jfixby.cmns.api.collections.Collections;
 import com.jfixby.cmns.api.collections.List;
 import com.jfixby.cmns.api.collections.Map;
+import com.jfixby.cmns.api.err.Err;
 import com.jfixby.cmns.api.file.ChildrenList;
 import com.jfixby.cmns.api.file.File;
 import com.jfixby.cmns.api.file.LocalFileSystem;
@@ -74,7 +75,7 @@ public class EclipseWorkSpaceSettings {
 		final EclipseProjectInfo info = this.project_location.get(core_project_name);
 		if (info == null) {
 			this.print();
-			throw new Error("Project info not found: " + core_project_name);
+			Err.reportError("Project info not found: " + core_project_name);
 		}
 		return info;
 	}
