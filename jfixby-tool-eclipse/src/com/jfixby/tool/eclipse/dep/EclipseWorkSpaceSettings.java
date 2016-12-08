@@ -30,6 +30,10 @@ public class EclipseWorkSpaceSettings {
 		for (int i = 0; i < projects_list.size(); i++) {
 			final File element = projects_list.getElementAt(i);
 			final File location_file = element.child(".location");
+			if (!location_file.exists()) {
+				L.d("NOT FOUND", location_file);
+				continue;
+			}
 			final String data = location_file.readToString();
 			final String prefix = "URI//file:/";
 			int begin = data.indexOf(prefix);
