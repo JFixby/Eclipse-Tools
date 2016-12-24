@@ -3,8 +3,8 @@ package com.jfixby.tool.eclipse.dep;
 
 import java.io.IOException;
 
-import com.jfixby.cmns.api.err.Err;
-import com.jfixby.cmns.api.file.File;
+import com.jfixby.scarabei.api.err.Err;
+import com.jfixby.scarabei.api.file.File;
 
 public class EclipseProjectInfo {
 
