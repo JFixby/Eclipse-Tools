@@ -113,9 +113,15 @@ public class EclipseProjectDependencies {
 
 	public void print () {
 		L.d("---[" + this.project_name + "]---------------------");
-		this.source_folders.print("source folders");
-		this.projects.print("projects");
-		this.jars.print("jars");
+		if (this.source_folders.size() > 0) {
+			this.source_folders.print("source folders");
+		}
+		if (this.projects.size() > 0) {
+			this.projects.print("projects");
+		}
+		if (this.jars.size() > 0) {
+			this.jars.print("jars");
+		}
 	}
 
 	public Collection<String> getProjectsList () {
