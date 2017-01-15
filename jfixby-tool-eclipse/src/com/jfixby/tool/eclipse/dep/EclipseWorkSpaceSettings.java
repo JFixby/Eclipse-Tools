@@ -8,7 +8,7 @@ import com.jfixby.scarabei.api.collections.Collections;
 import com.jfixby.scarabei.api.collections.List;
 import com.jfixby.scarabei.api.collections.Map;
 import com.jfixby.scarabei.api.err.Err;
-import com.jfixby.scarabei.api.file.ChildrenList;
+import com.jfixby.scarabei.api.file.FilesList;
 import com.jfixby.scarabei.api.file.File;
 import com.jfixby.scarabei.api.file.LocalFileSystem;
 import com.jfixby.scarabei.api.log.L;
@@ -26,7 +26,7 @@ public class EclipseWorkSpaceSettings {
 			.child(".projects");
 
 		final EclipseWorkSpaceSettings result = new EclipseWorkSpaceSettings(workspace_folder);
-		final ChildrenList projects_list = projects_folder.listDirectChildren();
+		final FilesList projects_list = projects_folder.listDirectChildren();
 		for (int i = 0; i < projects_list.size(); i++) {
 			final File element = projects_list.getElementAt(i);
 			final File location_file = element.child(".location");
