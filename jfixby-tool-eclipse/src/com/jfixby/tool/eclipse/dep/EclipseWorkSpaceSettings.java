@@ -8,8 +8,8 @@ import com.jfixby.scarabei.api.collections.Collections;
 import com.jfixby.scarabei.api.collections.List;
 import com.jfixby.scarabei.api.collections.Map;
 import com.jfixby.scarabei.api.err.Err;
-import com.jfixby.scarabei.api.file.FilesList;
 import com.jfixby.scarabei.api.file.File;
+import com.jfixby.scarabei.api.file.FilesList;
 import com.jfixby.scarabei.api.file.LocalFileSystem;
 import com.jfixby.scarabei.api.log.L;
 
@@ -67,7 +67,11 @@ public class EclipseWorkSpaceSettings {
 
 	private void addProjectLocation (final File project_path) throws IOException {
 		final EclipseProjectInfo info = new EclipseProjectInfo(project_path);
-		this.project_location.put(info.getProjectName(), info);
+		final String name = info.getProjectName();
+		if (name.startsWith(".")) {
+			return;
+		}
+		this.project_location.put(name, info);
 	}
 
 	public void print () {
@@ -91,6 +95,10 @@ public class EclipseWorkSpaceSettings {
 			list.add(info);
 		}
 		return list;
+	}
+
+	public Collection<String> listProjects () {
+		return this.project_location.keys();
 	}
 
 }
